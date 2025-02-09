@@ -1,5 +1,6 @@
 import { Loader } from "lucide-react";
 import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -54,6 +55,8 @@ function App() {
             element={authUser ? <ProfilePage /> : <Navigate to="/login" />} // If user is authenticated, it can access profile page, else redirect to login page
           />
         </Routes>
+
+        <Toaster />
       </div>
     </>
   );
