@@ -1,4 +1,5 @@
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import { connectDB } from './lib/db.js';
@@ -12,6 +13,11 @@ const PORT = process.env.PORT
 
 app.use(express.json()); // Body parser
 app.use(cookieParser()); // Cookie parser middleware to parse cookies
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true // to allow cookies from the frontend to pass through the
+}));
+
 app.use("/api/auth", authRoutes)
 app.use("/api/message", messageRoutes)
 
