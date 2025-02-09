@@ -8,11 +8,12 @@ import {
   User,
 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthImagePattern from "../../components/AuthImagePattern";
 import { useAuthStore } from "../store/useAuthStore";
 
 const SignupPage = () => {
+  const navigate = useNavigate();
   const { isSigningUp, signup } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -23,9 +24,12 @@ const SignupPage = () => {
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    signup(formData);
+    const signupRes = await signup(formData);
+    if (signupRes === true) {
+      navigate("/login");
+    }
   };
 
   return (

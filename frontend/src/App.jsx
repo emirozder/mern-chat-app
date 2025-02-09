@@ -2,6 +2,7 @@ import { Loader } from "lucide-react";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -12,6 +13,10 @@ import { useAuthStore } from "./store/useAuthStore";
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
   const location = useLocation();
+
+  // useEffect(() => {
+  //   checkAuth();
+  // }, [checkAuth]);
 
   useEffect(() => {
     if (
@@ -33,6 +38,8 @@ function App() {
   return (
     <>
       <div>
+        <Navbar />
+
         <Routes>
           <Route
             path="/"
