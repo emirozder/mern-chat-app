@@ -1,6 +1,6 @@
 import { Loader } from "lucide-react";
 import { useEffect } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -10,12 +10,17 @@ import { useAuthStore } from "./store/useAuthStore";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const location = useLocation();
 
   useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
-
-  console.log("Logged User", authUser);
+    if (
+      location.pathname === "/signup" ||
+      location.pathname === "/login" ||
+      location.pathname === "/settings"
+    )
+      return;
+    else checkAuth();
+  }, [checkAuth, location.pathname]);
 
   if (isCheckingAuth && !authUser) {
     return (
