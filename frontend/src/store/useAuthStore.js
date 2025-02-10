@@ -7,10 +7,9 @@ export const useAuthStore = create((set) => ({
   isSigningUp: false,
   isLoggingIn: false,
   isUpdatingProfile: false,
-  isCheckingAuth: false,
+  isCheckingAuth: true, // it is true because we are checking auth on app load
 
   checkAuth: async () => {
-    set({ isCheckingAuth: true })
     try {
       const res = await AxiosInstance.get("/auth/check-auth")
       set({ authUser: res.data.data })

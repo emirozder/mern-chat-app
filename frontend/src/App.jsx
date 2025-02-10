@@ -10,23 +10,24 @@ import SettingsPage from "./pages/SettingsPage";
 import SignupPage from "./pages/SignupPage";
 import { useAuthStore } from "./store/useAuthStore";
 
+const PrivateRoute = ({ children }) => {
+  const { authUser } = useAuthStore();
+  const isAuthenticated = !!authUser;
+  return isAuthenticated ? children : <Navigate to="/login" />;
+};
+
+const AuthRoute = ({ children }) => {
+  const { authUser } = useAuthStore();
+  const isAuthenticated = !!authUser;
+  return isAuthenticated ? <Navigate to="/" /> : children;
+};
+
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  // const location = useLocation();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-
-  // useEffect(() => {
-  //   if (
-  //     location.pathname === "/signup" ||
-  //     location.pathname === "/login" ||
-  //     location.pathname === "/settings"
-  //   )
-  //     return;
-  //   else checkAuth();
-  // }, [checkAuth, location.pathname]);
 
   if (isCheckingAuth && !authUser) {
     return (
@@ -35,6 +36,7 @@ function App() {
       </div>
     );
   }
+
   return (
     <>
       <div>
@@ -43,23 +45,36 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={authUser ? <HomePage /> : <Navigate to="/login" />} // If user is authenticated, it can access home page, else redirect to login page
+            element={
+              <PrivateRoute>
+                <HomePage />
+              </PrivateRoute>
+            }
           />
           <Route
             path="/signup"
-            element={!authUser ? <SignupPage /> : <Navigate to="/" />} // If user already authenticated, redirect to home page
+            element={
+              <AuthRoute>
+                <SignupPage />
+              </AuthRoute>
+            }
           />
           <Route
             path="/login"
-            element={!authUser ? <LoginPage /> : <Navigate to="/" />} // If user already authenticated, redirect to home page
+            element={
+              <AuthRoute>
+                <LoginPage />
+              </AuthRoute>
+            }
           />
-          <Route
-            path="/settings"
-            element={<SettingsPage />} // Settings page is accessible to all users
-          />
+          <Route path="/settings" element={<SettingsPage />} />
           <Route
             path="/profile"
-            element={authUser ? <ProfilePage /> : <Navigate to="/login" />} // If user is authenticated, it can access profile page, else redirect to login page
+            element={
+              <PrivateRoute>
+                <ProfilePage />
+              </PrivateRoute>
+            }
           />
         </Routes>
 
