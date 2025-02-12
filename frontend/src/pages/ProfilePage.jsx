@@ -70,7 +70,7 @@ const ProfilePage = () => {
               </div>
             )}
 
-            <p className="text-sm text-zinc-400">
+            <p className="text-sm">
               {isUpdatingProfile
                 ? "Uploading..."
                 : "Click the camera icon to update your photo"}
@@ -86,7 +86,7 @@ const ProfilePage = () => {
                   type="text"
                   value={authUser?.fullName}
                   className="input"
-                  disabled
+                  readOnly
                 />
               </label>
             </div>
@@ -99,7 +99,7 @@ const ProfilePage = () => {
                   type="text"
                   value={authUser?.email}
                   className="input"
-                  disabled
+                  readOnly
                 />
               </label>
             </div>
