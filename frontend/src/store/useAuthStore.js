@@ -39,7 +39,7 @@ export const useAuthStore = create((set) => ({
     try {
       const res = await AxiosInstance.post("/auth/login", formData)
       set({ authUser: res.data.data })
-      res.data.success === true ? toast.success("Logged in successfully") : toast.error(res.data.message)
+      res.data.success === true ? toast.success(`Welcome, ${res.data.data.fullName}!`) : toast.error(res.data.message)
       return res.data.success
     } catch (error) {
       toast.error(error.response.data.message);
