@@ -46,8 +46,7 @@ const Navbar = () => {
                 <button
                   className="btn btn-sm gap-2 transition-colors"
                   onClick={() => {
-                    logout();
-                    navigate("/login");
+                    logout().then(() => navigate("/login"));
                   }}
                 >
                   <LogOut className="size-5" />
