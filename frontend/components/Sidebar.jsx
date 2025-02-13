@@ -8,8 +8,8 @@ const Sidebar = () => {
     useChatStore();
 
   useEffect(() => {
-    users.length === 0 && getUsers();
-  }, [getUsers, users.length]);
+    getUsers();
+  }, [getUsers]);
 
   return (
     <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">

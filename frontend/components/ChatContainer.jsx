@@ -1,17 +1,25 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { formatMessageTime } from "../src/lib/utils";
 import { useAuthStore } from "../src/store/useAuthStore";
 import { useChatStore } from "../src/store/useChatStore";
 import ChatHeader from "./ChatHeader";
+import ChatInputArea from "./ChatInputArea";
 
 const ChatContainer = () => {
   const { authUser } = useAuthStore();
   const { messages, getMessages, isMessagesLoading, selectedUser } =
     useChatStore();
+  const messageEndRef = useRef(null);
 
   useEffect(() => {
     getMessages(selectedUser?._id);
   }, [getMessages, selectedUser]);
+
+  useEffect(() => {
+    if (messageEndRef.current && messages) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <div className="flex-1 flex flex-col overflow-auto">
@@ -53,6 +61,7 @@ const ChatContainer = () => {
                 className={`chat ${
                   message.senderId === authUser._id ? "chat-end" : "chat-start"
                 }`}
+                ref={messageEndRef}
               >
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
@@ -71,7 +80,13 @@ const ChatContainer = () => {
                     ? authUser?.fullName
                     : selectedUser?.fullName}
                 </div>
-                <div className="chat-bubble">
+                <div
+                  className={`chat-bubble ${
+                    message.senderId === authUser._id
+                      ? "bg-primary text-primary-content"
+                      : "bg-base-200"
+                  }`}
+                >
                   {message.image && (
                     <img
                       src={message.image}
@@ -89,7 +104,7 @@ const ChatContainer = () => {
           </>
         )}
       </div>
-      {/* <ChatInputArea /> */}
+      <ChatInputArea />
     </div>
   );
 };
