@@ -110,9 +110,6 @@ export const useAuthStore = create((set, get) => ({
       get().socket.disconnect();
     }
 
-    // set the socket to null
-    set({ socket: null });
-
     // set onlineUsers to empty array
     set({ onlineUsers: [] });
   }
