@@ -7,13 +7,25 @@ import ChatInputArea from "./ChatInputArea";
 
 const ChatContainer = () => {
   const { authUser } = useAuthStore();
-  const { messages, getMessages, isMessagesLoading, selectedUser } =
-    useChatStore();
+  const {
+    messages,
+    getMessages,
+    isMessagesLoading,
+    selectedUser,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  } = useChatStore();
   const messageEndRef = useRef(null);
 
   useEffect(() => {
     getMessages(selectedUser?._id);
-  }, [getMessages, selectedUser]);
+
+    subscribeToMessages();
+
+    return () => {
+      unsubscribeFromMessages();
+    };
+  }, [getMessages, selectedUser, subscribeToMessages, unsubscribeFromMessages]);
 
   useEffect(() => {
     if (messageEndRef.current && messages) {
